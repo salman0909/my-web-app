@@ -6,6 +6,15 @@ pipeline {
         dockerhubCredentials = 'dockerhub-credentials'
         dockerImageTag = "salman1091/ci-cd-with-docker:${BUILD_TAG.toLowerCase()}"
     }
+    stages {
+        stage('Checkout') {
+            steps {
+                script {
+                    // Make sure to replace 'your-repo-url' with the URL of your Git repository
+                    checkout([$class: 'GitSCM', branches: [[name: '*/master']], userRemoteConfigs: [[url: 'https://github.com/salman0909/my-web-app.git']]])
+                }
+            }
+        }
 
     stages {
         stage('Build Docker Image') {
