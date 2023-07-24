@@ -2,20 +2,19 @@ pipeline {
     agent any
 
     environment {
-        dockerhubCredentials = 'dockerhub-credentials'
-        dockerImageTag = "salman1091/my-web-app:${env.BUILD_TAG.toLowerCase()}"
+        dockerImageTag = "salman-1091/my-web-app:${BUILD_TAG.toLowerCase()}"
     }
+
     stages {
         stage('Checkout') {
             steps {
                 script {
                     // Make sure to replace 'your-repo-url' with the URL of your Git repository
-                    checkout([$class: 'GitSCM', branches: [[name: '*/master']], userRemoteConfigs: [[url: 'https://github.com/salman0909/my-web-app.git']]])
+                    checkout([$class: 'GitSCM', userRemoteConfigs: [[url: 'https://github.com/salman0909/my-web-app.git']]])
                 }
             }
         }
 
-    stages {
         stage('Build Docker Image') {
             steps {
                 script {
@@ -27,7 +26,8 @@ pipeline {
         stage('Push Docker Image') {
             steps {
                 script {
-                    docker.withRegistry('', dockerhubCredentials) {
+                    withCredentials([usernamePassword(credentialsId: 'dockerhub-credentials', usernameVariable: 'DOCKER_USERNAME', passwordVariable: 'DOCKER_PASSWORD')]) {
+                        sh "docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD"
                         sh "docker push $dockerImageTag"
                     }
                 }
@@ -35,6 +35,3 @@ pipeline {
         }
     }
 }
-
-
-
