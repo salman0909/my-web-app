@@ -1,10 +1,9 @@
-
 pipeline {
     agent any
 
     environment {
         dockerhubCredentials = 'dockerhub-credentials'
-        dockerImageTag = "salman1091/my-web-app:${BUILD_TAG.toLowerCase()}"
+        dockerImageTag = "salman1091/my-web-app:${env.BUILD_TAG.toLowerCase()}"
     }
     stages {
         stage('Checkout') {
