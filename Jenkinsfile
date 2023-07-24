@@ -4,7 +4,7 @@ pipeline {
 
     environment {
         dockerhubCredentials = 'dockerhub-credentials'
-        dockerImageTag = "salman1091/ci-cd-with-docker:${BUILD_TAG.toLowerCase()}"
+        dockerImageTag = "salman1091/my-web-app:${BUILD_TAG.toLowerCase()}"
     }
     stages {
         stage('Checkout') {
