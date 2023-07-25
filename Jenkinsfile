@@ -4,8 +4,12 @@ pipeline {
     environment {
         dockerImageTag = "salman1091/my-web-app:${BUILD_TAG.toLowerCase()}"
     }
-
+    
     stages {
+        stage('Initialize'){
+              def dockerHome = tool 'myDocker'
+              env.PATH = "${dockerHome}/bin:${env.PATH}"
+           }
         stage('Checkout') {
             steps {
                 script {
